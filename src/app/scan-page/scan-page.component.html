@@ -1,0 +1,28 @@
+<h1>Scan Page</h1>
+
+<a [routerLink]="['/main']" fragment="education">
+    Go to Main Page
+</a>
+
+<hr>
+<p>Process Status: {{startedProcess}}</p>
+<button (click)="onClick()">Start Scanning</button>
+<p>Scanning Type: {{scanningType}}</p>
+<button (click)="onScanningTypeClick()">Change Scanning Type</button>
+
+<hr>
+<p>Amount of window messages: {{triedNum}}</p>
+<p>Origen URL: {{origenUrl}}</p>
+<p>Origen Data: {{origenData}}</p>
+<hr>
+
+<p>Scannig Value:</p>
+<p>{{scannedValue}}</p>
+
+<!-- <ol>
+    <li *ngFor="let item of scannedItems">
+        {{item}}
+    </li>
+</ol> -->
+
+<button (click)="onReset()">Reset Scanned Items</button>
