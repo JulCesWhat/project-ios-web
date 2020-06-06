@@ -75,7 +75,7 @@ export class ScanPageComponent implements OnInit {
 
     public onScanningTypeClick() {
         if (this.scanningType === 'ONED') {
-            this.scanningType = 'PDF147'
+            this.scanningType = 'PDF417'
         } else {
             this.scanningType = 'ONED';
         }
