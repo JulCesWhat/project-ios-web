@@ -15,6 +15,7 @@ export class ScanPageComponent implements OnInit {
     public scanningType: string = 'ONED';
     public scannedValue: string = '';
     public receivedValue: string = ''
+    public isDL: boolean = false;
 
     constructor(private renderer: Renderer2) {
         this.stopListening =
@@ -37,9 +38,12 @@ export class ScanPageComponent implements OnInit {
         console.log(message.data);
         this.receivedValue = 'RECEIVED'
 
-        // if (message.data instanceof String) {
-        this.scannedValue = message.data;
-        // }
+        this.scannedValue = message.data || '';
+        if (this.scannedValue.includes('@')) {
+            this.isDL = true;
+        } else {
+            this.isDL = false;
+        }
     }
 
     // @HostListener('window:message', ['$event'])
