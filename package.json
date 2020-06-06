@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng deploy --base-href=https://julceswhat.github.com/project-ios-web/",
-    "postinstall": "ng build —aot —prod"
+    "deploy": "ng deploy --base-href=https://julceswhat.github.com/project-ios-web/"
   },
   "private": true,
   "dependencies": {
