@@ -14,6 +14,7 @@ export class ScanPageComponent implements OnInit {
     public startedProcess: string = '';
     public scanningType: string = 'ONED';
     public scannedValue: string = '';
+    public receivedValue: string = ''
 
     constructor(private renderer: Renderer2) {
         this.stopListening =
@@ -34,6 +35,7 @@ export class ScanPageComponent implements OnInit {
         if (message.origin !== window.location.origin) return;
 
         console.log(message.data);
+        this.receivedValue = 'RECEIVED'
 
         // if (message.data instanceof String) {
         this.scannedValue = message.data;
@@ -55,6 +57,9 @@ export class ScanPageComponent implements OnInit {
 
     public onClick() {
         console.log('Starting');
+        this.receivedValue = '';
+        this.origenUrl = '';
+        this.origenData = '';
         try {
             let value: boolean = (window as any).localStorage.getItem("iOSIpadView");
             if (value) {
