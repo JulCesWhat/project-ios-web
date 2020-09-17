@@ -1,4 +1,5 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-scan-page',
@@ -14,15 +15,24 @@ export class ScanPageComponent implements OnInit {
     public startedProcess: string = '';
     public scanningType: string = 'ONED';
     public scannedValue: string = '';
-    public receivedValue: string = ''
     public isDL: boolean = false;
+    public capi: boolean = true;
+
+
+    public testForm: FormGroup;
+    public selectedElement: any;
 
     constructor(private renderer: Renderer2) {
-        this.stopListening =
-            renderer.listen('window', 'message', this.handleMessage.bind(this));
     }
 
     ngOnInit() {
+        this.testForm = new FormGroup({
+            capi: new FormControl('', []),
+            capi2: new FormControl('', []),
+            sashi: new FormControl('', [])
+        });
+
+        this.stopListening = this.renderer.listen('window', 'message', this.handleMessage.bind(this));
     }
 
     //window.postMessage("test message data", "http://localhost:4200/")
@@ -35,15 +45,31 @@ export class ScanPageComponent implements OnInit {
         // Only trust messages from the below origin.
         if (message.origin !== window.location.origin) return;
 
+        console.log('\n-------------');
+        console.log(message);
         console.log(message.data);
-        this.receivedValue = 'RECEIVED'
-
-        this.scannedValue = message.data || '';
-        if (this.scannedValue.includes('@')) {
-            this.isDL = true;
-        } else {
-            this.isDL = false;
+        console.log('-------------\n')
+        let body = message.data || null;
+        if (body) {
+            switch (body.type) {
+                case 'KEYBOARDNUM':
+                    // console.log(body.value)
+                    this.setValueToInput(body.value, body.id);
+                    break;
+                case 'PDF417':
+                    this.isDL = true;
+                    this.scannedValue = body.scannedItems;
+                    break;
+                case 'ONED':
+                    this.isDL = false;
+                    this.scannedValue = body.scannedItems;
+                    break;
+                default:
+                    console.log('UNKNOWN');
+            }
         }
+
+        console.log('handleMessage() finished getting called.')
     }
 
     // @HostListener('window:message', ['$event'])
@@ -56,12 +82,12 @@ export class ScanPageComponent implements OnInit {
     // }
 
     ngOnDestroy() {
+        console.log('Destroying stuff...');
         this.stopListening();
     }
 
     public onClick() {
         console.log('Starting');
-        this.receivedValue = '';
         this.origenUrl = '';
         this.origenData = '';
         try {
@@ -79,7 +105,7 @@ export class ScanPageComponent implements OnInit {
 
     public onReset() {
         this.scannedItems = [];
-        this.scannedValue = '';
+        // this.scannedValue = '';
     }
 
     public onScanningTypeClick() {
@@ -90,4 +116,41 @@ export class ScanPageComponent implements OnInit {
         }
     }
 
+    public onInputClick(e) {
+        // e.preventDefault()
+        console.log(e);
+        if ((window as any).webkit && (window as any).webkit.messageHandlers && !this.selectedElement) {
+            let value = this.testForm.get('capi').value;
+            (window as any).webkit.messageHandlers.aktivateDeployNumberKeyboard.postMessage({isActive: true, currentValue: value, id: 'capi', maxLength: 4});
+        }
+    }
+
+    public onInputClick2(e) {
+        // e.preventDefault()
+        console.log(e);
+        if ((window as any).webkit && (window as any).webkit.messageHandlers && !this.selectedElement) {
+            let value = this.testForm.get('capi2').value;
+            (window as any).webkit.messageHandlers.aktivateDeployNumberKeyboard.postMessage({isActive: true, currentValue: value, id: 'capi2', maxLength: 50});
+        }
+    }
+
+    public setValueToInput(value, id) {
+        // this.testForm.get(id).patchValue(value);
+        console.log(value);
+        this.testForm.patchValue({
+            [id]: value
+        });
+    }
+
+    public onFocus(event) {
+        event.preventDefault();
+    }
+
+    public startNewWindow() {
+        window.open('https://play.google.com/store/apps/details?id=com.drishya', "hello", "width=200,height=200");
+    }
+
+    public noFocus(e) {
+        e.preventDefault()
+    }
 }

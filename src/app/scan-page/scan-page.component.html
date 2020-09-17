@@ -9,12 +9,27 @@
 <button (click)="onClick()">Start Scanning</button>
 <p>Scanning Type: {{scanningType}}</p>
 <button (click)="onScanningTypeClick()">Change Scanning Type</button>
+<p></p>
+<button (click)="startNewWindow()">Open new window</button>
+
+<form [formGroup]="testForm">
+    <br>
+    <input type="tel" formControlName="capi" (click)="onInputClick($event)" [readOnly]="capi" />
+    <br>
+    <input type="tel"  formControlName="capi2" (click)="onInputClick2($event)" [readOnly]="false" />
+    <br>
+    <input type="number"  pattern="[0-9]*" />
+    <br>
+    <input  type="text" />
+    <br>
+</form>
 
 <hr>
 <p>Amount of window messages: {{triedNum}}</p>
 <p>Origen URL: {{origenUrl}}</p>
 <p>Origen Data: {{origenData}}</p>
 <p>IS DL: {{isDL}}</p>
+<p>Data: {{scannedValue}}</p>
 <hr>
 
 <!-- <ol>
