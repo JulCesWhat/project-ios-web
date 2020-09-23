@@ -1,4 +1,8 @@
 <h1>Scan Page</h1>
+<h1>Scan Page</h1>
+<h1>Scan Page</h1>
+<h1>Scan Page</h1>
+<h1>Scan Page</h1>
 
 <a [routerLink]="['/main']" fragment="education">
     Go to Main Page
@@ -14,9 +18,9 @@
 
 <form [formGroup]="testForm">
     <br>
-    <input type="tel" formControlName="capi" (click)="onInputClick($event)" [readOnly]="capi" />
+    <input type="tel" id="capi" formControlName="capi" (click)="onInputClick($event)" [readOnly]="capi" />
     <br>
-    <input type="tel"  formControlName="capi2" (click)="onInputClick2($event)" [readOnly]="false" />
+    <input type="tel" id="capi2" formControlName="capi2" (click)="onInputClick2($event)" [readOnly]="false" />
     <br>
     <input type="number"  pattern="[0-9]*" />
     <br>
@@ -30,6 +34,7 @@
 <p>Origen Data: {{origenData}}</p>
 <p>IS DL: {{isDL}}</p>
 <p>Data: {{scannedValue}}</p>
+<p>Return Key: {{returnIdKey}}</p>
 <hr>
 
 <!-- <ol>

@@ -18,6 +18,8 @@ export class ScanPageComponent implements OnInit {
     public isDL: boolean = false;
     public capi: boolean = true;
 
+    public returnIdKey: string = "";
+
 
     public testForm: FormGroup;
     public selectedElement: any;
@@ -63,6 +65,15 @@ export class ScanPageComponent implements OnInit {
                 case 'ONED':
                     this.isDL = false;
                     this.scannedValue = body.scannedItems;
+                    break;
+                case 'KEYBOARDNUM_ENTERKEY':
+                    // this.onIpadEnterKeyUp.emit(this.inputId);
+                    console.log(body.id)
+                    this.returnIdKey = body.id;
+                    break;
+                case 'SCROLL_INTO_VIEW':
+                    console.log(body.id)
+                    document.getElementById(body.id).scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
                     break;
                 default:
                     console.log('UNKNOWN');
